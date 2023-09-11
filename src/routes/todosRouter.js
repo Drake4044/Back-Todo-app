@@ -4,9 +4,13 @@ const { Op } = require("sequelize")
 
 const router = Router()
 
-router.get("/", async (req,res) => {
+router.get("/", async (req,res) => { // All todos en orden asencendente por id
     try {
-        const todos = await Todo.findAll()
+        const todos = await Todo.findAll({
+            order: [
+                ['id', 'ASC'],
+            ]
+        })
         res.status(200).send(todos)
     } catch (error) {
         console.log(error.message);
@@ -14,7 +18,7 @@ router.get("/", async (req,res) => {
 })
 
 
-router.get("/:id", async (req,res) => {
+router.get("/:id", async (req,res) => { // todos por usuario en orden asencendente por id
 
     const { id } = req.params
 
@@ -23,7 +27,10 @@ router.get("/:id", async (req,res) => {
             const userTodos = await Todo.findAll({
                 where: {
                     UserId: id
-                }
+                },
+                order: [
+                    ['id', 'ASC'],
+                ]
             })
             res.status(200).send(userTodos)
         } catch (error) {
@@ -44,13 +51,12 @@ router.post("/", async (req,res) => {
                 res.status(400).send(`Ya existe la tarea: "${task}"`)
             }
     } catch (error) {
-        res.status(404).send("No se pudo agregar la tarea")
+        res.status(404).send("Ocurrio un error al agregar la tarea")
     }
 })
 
-router.put('/', async (req, res) =>{
+router.put('/complete', async (req, res) =>{ // ruta is complete
     try {
-
         const { id, task } = req.body
         const completeTodo = await Todo.findOne({
             where: {
@@ -58,14 +64,28 @@ router.put('/', async (req, res) =>{
                 UserId: id
             }
         })
-        
-        console.log(completeTodo);
-        completeTodo.complete = !completeTodo.complete
 
+        completeTodo.complete = !completeTodo.complete
         await completeTodo.save();
         res.status(200).send("Tarea completada")
     } catch (error) {
         res.status(400).send('No se puedo completar la tarea');
+    }
+});
+
+router.put('/edit', async (req, res) =>{ // ruta edit todo
+    try {
+        const { id, task } = req.body
+        const editTodo = await Todo.findOne({
+            where: {
+                id: id
+            }
+        })
+        editTodo.task = task
+        await editTodo.save();
+        res.status(200).send("Tarea editada")
+    } catch (error) {
+        res.status(400).send('No se pudo editar la tarea');
     }
 });
 
@@ -75,11 +95,9 @@ router.delete ("/",  async (req,res) => {
         const deleteTodo = await Todo.findOne({
             where: {task, UserId: id}
         })
-        console.log(req.body)
         await deleteTodo.destroy()
         res.status(200).send("Tarea eliminada")
     } catch (error) {
-        console.log(req.body)
         res.status(400).send("Ocurrio un error")
     }
 })

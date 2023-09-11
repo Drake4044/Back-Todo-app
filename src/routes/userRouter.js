@@ -48,12 +48,12 @@ router.post("/", async (req,res) => { // ruta crea un usuario o si ya existe por
         }
         
     } catch (error) {
-        res.status(400).send("algo anda mal")
+        res.status(404).send("algo anda mal")
     }
 })
 
 
-router.delete("/", async (req,res) => {
+router.delete("/", async (req,res) => { // eliminar user
     try {
         const { id } = req.body
         const user = await User.findOne({
