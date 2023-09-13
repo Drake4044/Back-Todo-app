@@ -39,7 +39,7 @@ router.get("/:id", async (req,res) => { // todos por usuario en orden asencenden
     }
 })
 
-router.post("/", async (req,res) => {
+router.post("/", async (req,res) => { // Agregar nueca todo (si no existe)
     try {
         const { userId, task, complete } = req.body
         const findTodo = await Todo.findOne({ where: { task: { [Op.iLike]: task }, UserId: userId }})
@@ -89,7 +89,7 @@ router.put('/edit', async (req, res) =>{ // ruta edit todo
     }
 });
 
-router.delete ("/",  async (req,res) => {
+router.delete ("/",  async (req,res) => { // delete todo
     try {
         const { id, task } = req.body
         const deleteTodo = await Todo.findOne({
