@@ -28,7 +28,7 @@ router.get("/:id", async (req,res) => { // user por id
         user 
         ?  res.status(200).send(sendUser)
         :  res.status(400).send(`No se encuenta el usuario con el id: ${id}`)
-        
+
     } catch (error) {
         res.status(404).send("algo anda mal")
     }
@@ -83,6 +83,23 @@ router.delete("/", async (req,res) => { // eliminar user
         res.status(200).send(`User fue eliminado`)
     } catch (error) {
         res.status(404).send("No se pudo eliminar el usuario")
+    }
+})
+
+
+router.put("/edit", async (req,res) => { // editar user
+    try {
+        const { id , name, user, mail } = req.body
+        const editUser = await User.findOne({
+            where: { id }
+        })
+        if(name !== "") editUser.name = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
+        if(user !== "") editUser.user = user
+        if(mail !== "") editUser.mail = mail
+        await editUser.save()
+        res.status(200).send(`El Usiario fue editado`)
+    } catch (error) {
+        res.status(404).send("No se pudo editar el usuario")
     }
 })
 
