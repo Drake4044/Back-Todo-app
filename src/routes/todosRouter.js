@@ -19,24 +19,21 @@ router.get("/", async (req,res) => { // All todos en orden asencendente por id
 
 
 router.get("/:id", async (req,res) => { // todos por usuario en orden asencendente por id
-
-    const { id } = req.params
-
-    if(id) {
-        try {
-            const userTodos = await Todo.findAll({
-                where: {
-                    UserId: id
-                },
-                order: [
-                    ['id', 'ASC'],
-                ]
-            })
-            res.status(200).send(userTodos)
+    try {
+        const { id } = req.params
+        const userTodos = await Todo.findAll({
+            where: {
+                UserId: id
+            },
+            order: [
+                ['id', 'ASC'],
+            ]
+        })
+        res.status(200).send(userTodos)
         } catch (error) {
             console.log(error.message);
         }
-    }
+    
 })
 
 router.post("/", async (req,res) => { // Agregar nueva todo (si no existe)

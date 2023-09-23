@@ -1,5 +1,5 @@
 const { Router } = require("express")
-const { User } = require("../db")
+const { User, Todo } = require("../db")
 const { Op } = require("sequelize");
 
 const router = Router()
@@ -17,7 +17,7 @@ router.get("/", async (req,res) => { // todos los users
 router.get("/:id", async (req,res) => { // user por id
     try {
         const { id } = req.params
-
+        
         const user = await User.findOne({ where: { id } })
         const sendUser = {
             id: user.id, 
@@ -25,12 +25,10 @@ router.get("/:id", async (req,res) => { // user por id
             user: user.user, 
             mail: user.mail
         }
-        user 
-        ?  res.status(200).send(sendUser)
-        :  res.status(400).send(`No se encuenta el usuario con el id: ${id}`)
-
+        res.status(200).send(sendUser)  
+        
     } catch (error) {
-        res.status(404).send("algo anda mal")
+        res.status(400).send("Usuario inexistente")
     }
 })
 
@@ -73,15 +71,30 @@ router.post("/", async (req,res) => { // ruta crea un usuario o si ya existe por
 })
 
 
-router.delete("/", async (req,res) => { // eliminar user
+router.delete("/delete", async (req,res) => { // eliminar user y todas sus tareas
     try {
         const { id } = req.body
         const user = await User.findOne({
             where: { id }
         })
+        
+        await Todo.destroy({
+            where: {
+                UserId: id
+            },
+        })
         await user.destroy()
-        res.status(200).send(`User fue eliminado`)
+        res.status(200).send(`User y todos eliminados`)
     } catch (error) {
+
+        const { id } = req.body
+
+        const userTodos = await Todo.findAll({
+            where: {
+                UserId: id
+            },
+        })
+        console.log(userTodos);
         res.status(404).send("No se pudo eliminar el usuario")
     }
 })
@@ -89,13 +102,14 @@ router.delete("/", async (req,res) => { // eliminar user
 
 router.put("/edit", async (req,res) => { // editar user
     try {
-        const { id , name, user, mail } = req.body
+        const { id , name, user, mail, password } = req.body
         const editUser = await User.findOne({
             where: { id }
         })
         if(name !== "") editUser.name = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
         if(user !== "") editUser.user = user
         if(mail !== "") editUser.mail = mail
+        if(password !== "") editUser.password = password
         await editUser.save()
         res.status(200).send(`El Usiario fue editado`)
     } catch (error) {
