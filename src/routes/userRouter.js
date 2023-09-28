@@ -19,15 +19,13 @@ router.get("/:id", async (req,res) => { // user por id
         const { id } = req.params
         
         const user = await User.findOne({ where: { id } })
-        // const sendUser = {
-        //     id: user.id, 
-        //     name: user.name, 
-        //     user: user.user, 
-        //     mail: user.mail,
-        //     password: user.password
-        // }
-        res.status(200).send(user)  
-        
+        const sendUser = {
+            id: user.id, 
+            name: user.name, 
+            user: user.user, 
+            mail: user.mail,
+        }
+        res.status(200).send(sendUser)  
     } catch (error) {
         res.status(400).send("Usuario inexistente")
     }
@@ -125,14 +123,6 @@ router.put("/edit", async (req,res) => { // editar user
         await editUser.save()
         res.status(200).send(`El Usuario fue editado`)
     } catch (error) {
-        const { id , name, user, mail } = req.body
-        const editUser = await User.findOne({
-            where: { 
-                id: id 
-            },
-        })
-        console.log(req.body);
-        console.log(editUser);
         res.status(404).send("No se pudo editar el usuario")
     }
 })
