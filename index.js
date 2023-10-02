@@ -1,7 +1,7 @@
 const server = require("./src/app")
 const { dataBase } = require("./src/db")
 
-const port = "3001"
+const port = process.env.POTH || 3001
 const syncOptions = {
     force: false, 
     alter: true

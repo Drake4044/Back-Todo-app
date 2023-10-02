@@ -3,7 +3,7 @@ const { Sequelize } = require("sequelize");
 const TodoModel = require('./models/todo');
 const UserModel = require('./models/User');
 
-const { DB_USER, DB_PASSWORD, DB_HOST,DB_NAME } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 
 
 const dataBase = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
