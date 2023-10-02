@@ -11,7 +11,7 @@ import UserModel from "./models/User.js"
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 
 
-export const dataBase = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+export const dataBase = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@localhost/${DB_NAME}`, {
   logging: false,
   native: false,
 })
