@@ -1,5 +1,7 @@
-const server = require("./src/app")
-const { dataBase } = require("./src/db")
+// const server = require("./src/app")
+// const { dataBase } = require("./src/db")
+import server from "./src/app.js"
+import { dataBase } from "./src/db.js"
 
 const port = process.env.POTH || 3001
 const syncOptions = {
@@ -14,4 +16,4 @@ dataBase.sync(syncOptions).then( () => {
 })
 
 
-module.exports = server
+// module.exports = server

@@ -1,4 +1,5 @@
-const { DataTypes } = require("sequelize")
+// const { DataTypes } = require("sequelize")
+import { DataTypes } from "sequelize"
 
 const Todo = (database) => {
     database.define("Todo", {
@@ -18,4 +19,5 @@ const Todo = (database) => {
     },{timestamps : false})  
 }
 
-module.exports = Todo
+// module.exports = Todo
+export default Todo

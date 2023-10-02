@@ -1,6 +1,10 @@
-const { Router } = require("express")
-const { User, Todo } = require("../db")
-const { Op } = require("sequelize");
+// const { Router } = require("express")
+// const { User, Todo } = require("../db")
+// const { Op } = require("sequelize");
+import { Router } from "express";
+import { User, Todo } from "../db.js";
+import { Op } from "sequelize"
+
 
 const router = Router()
 
@@ -127,4 +131,5 @@ router.put("/edit", async (req,res) => { // editar user
     }
 })
 
-module.exports = router
+// module.exports = router
+export default router
