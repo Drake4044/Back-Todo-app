@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 import dot from "dotenv"
 dot.config()
 // const { Sequelize } = require("sequelize");
