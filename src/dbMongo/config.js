@@ -7,7 +7,6 @@ const { MONGO_CONECT } = process.env
 
 
 const dbConecction = async() => {
-
     try {
 
         await mongoose.connect( MONGO_CONECT , {
@@ -21,8 +20,6 @@ const dbConecction = async() => {
         console.log(error);
         throw new Error(`${"Error".red.bold} al iniciar la base de datos`)
     }
-
-
 }
 
 module.exports = {

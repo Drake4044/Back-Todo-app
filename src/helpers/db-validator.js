@@ -17,7 +17,15 @@ const validateMail = async( mail = "" ) => { // validacion si existe el Mail en 
         }
 }
 
+const validateId = async( id ) => {
+    const findIdUser = await User.findById( id )
+        if( !findIdUser ) {
+            throw new Error(`No existe un usuario con el Id: ${id} en la DB`)
+        }
+}
+
 module.exports = {
     validatorRole,
-    validateMail
+    validateMail,
+    validateId
 }
