@@ -1,19 +1,18 @@
-// const server = require("./src/app")
-// const { dataBase } = require("./src/db")
-import server from "./src/app.js"
-import { dataBase } from "./src/db.js"
+require("colors")
+const server = require("./src/app")
+const { dbConecction } = require("./src/dbMongo/config.js") 
 
 const port = process.env.POTH || 3001
-const syncOptions = {
-    force: false, 
-    alter: true
+
+
+conectarDB = async () => {
+    await dbConecction()
+    server.listen(port, () => {
+        console.log(`El servidor esta ${"funcionando".green.bold} en el puerto ${port}`);
+    })
 }
 
-dataBase.sync(syncOptions).then( () => {
-    server.listen(port, () => {
-        console.log(`El servidor esta funcionando en el puerto ${port}`);
-    })
-})
+conectarDB()
 
 
-// module.exports = server
+module.exports = server

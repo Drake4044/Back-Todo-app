@@ -1,9 +1,6 @@
-// const { Router } = require("express")
+const { Router } = require("express")
 // const { Todo } = require("../db")
 // const { Op } = require("sequelize")
-import { Router } from "express"
-import { Todo } from "../db.js"
-import { Op } from "sequelize"
 
 
 const router = Router()
@@ -103,5 +100,4 @@ router.delete ("/",  async (req,res) => { // delete todo
     }
 })
 
-
-export default router
+module.exports = router
