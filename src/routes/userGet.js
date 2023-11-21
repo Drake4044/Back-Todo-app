@@ -1,28 +1,40 @@
-const { Router } = require("express")
 const User = require("../models/userMg")
 
-const router = Router()
+const userGet = async (req,res) => { // todos los users
+    try {   
 
+        const { limite = 5, desde = 0 } = req.query
+        const query = { state: true } 
 
-router.get("/", async (req,res) => { // todos los users
-    try {    
-        const allUsers = await User.find()
-        res.status(200).send(allUsers)
+        const [ total, usuarios ] = await Promise.all([ // ejecuta ambas simultaneamente
+            User.countDocuments( query ), // promesa 1
+            User.find( query ) // promesa 2
+                .skip( desde ) // crea query
+                .limit( limite ) // crea query
+        ])
+
+        res.status(200).send({
+            total,
+            usuarios
+        })
     } catch (error) {
         res.status(404).send("algo anda mal")
     }
-})
+}
 
-router.get("/:_id", async (req,res) => { // user por id
+const userById = async (req,res) => { // user por id
     try {
         const { id } = req.params
         
-        const user = await User.findOne( id )
+        const user = await User.findOne({ _id: id })
 
-        res.status(200).send(user)  
+        res.status(200).send( user )  
     } catch (error) {
         res.status(400).send("Usuario inexistente")
     }
-})
+}
 
-module.exports = router
+module.exports = {
+    userGet,
+    userById
+}

@@ -1,35 +1,23 @@
-const { Router } = require("express")
 const User = require("../models/userMg")
 
-const router = Router()
 
-
-router.delete("/delete", async (req,res) => { // eliminar user y todas sus tareas
+const userDelete = async(req,res) => { // eliminar user 
     try {
-        const { id } = req.body
-        const user = await User.findOne({
-            where: { id }
-        })
+        const { id } = req.params
+
+        const userId = await User.findById( id ) // Flag
         
-        await Todo.destroy({
-            where: {
-                UserId: id
-            },
+        const user = await User.findByIdAndUpdate( id, { state: !userId.state } )
+
+        res.status(200).json({
+            user,
+            msg: "Usuario eliminado"
         })
-        await user.destroy()
-        res.status(200).send(`User y todos eliminados`)
+
     } catch (error) {
 
-        const { id } = req.body
-
-        const userTodos = await Todo.findAll({
-            where: {
-                UserId: id
-            },
-        })
-        console.log(userTodos);
         res.status(404).send("No se pudo eliminar el usuario")
     }
-})
+}
 
-module.exports = router
+module.exports = userDelete

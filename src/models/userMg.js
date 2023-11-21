@@ -16,7 +16,8 @@ const UserSchema = Schema({
     },
     user: {
         type: String,
-        require : [ true, "El 'user' es obligatorio " ]
+        require : [ true, "El 'user' es obligatorio " ],
+        unique: true // Crear validacion
     },
     img: {
         type: String
@@ -34,11 +35,10 @@ const UserSchema = Schema({
         type: Boolean,
         default: false
     },
-
 })
 
 UserSchema.methods.toJSON = function() {
-    const {  __v, password, ...user } = this.toObject()
+    const {  __v, ...user } = this.toObject()
     return user
 }
 

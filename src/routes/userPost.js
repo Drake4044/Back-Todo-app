@@ -7,6 +7,7 @@ const router = Router()
 router.post("/login", async (req,res) => { // logeo
     try {
         const { mail, password } = req.body 
+        
         const findUser = await User.findOne({ where: { mail, password } })
 
         if(findUser) {
@@ -20,7 +21,7 @@ router.post("/login", async (req,res) => { // logeo
 })
 
 
-router.post("/", async (req,res) => { // ruta crea un usuario o si ya existe por Usuario y/o mail
+router.post("/", async (req,res) => { // ruta crea un usuario
     try {   
         const { name, mail, password, user, rol, } = req.body
         
@@ -37,5 +38,6 @@ router.post("/", async (req,res) => { // ruta crea un usuario o si ya existe por
         res.status(404).json(error)
     }
 })
+
 
 module.exports = router
