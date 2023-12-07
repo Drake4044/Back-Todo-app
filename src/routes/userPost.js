@@ -23,9 +23,9 @@ router.post("/login", async (req,res) => { // logeo
 
 router.post("/", async (req,res) => { // ruta crea un usuario
     try {   
-        const { name, mail, password, user, rol, } = req.body
+        const { name, mail, password, user, img, rol, } = req.body
         
-        const userMg = new User( { name, mail, password, user, rol, } )
+        const userMg = new User( { name, mail, password, user, img, rol } )
 
         const salt = bcryptjs.genSaltSync() // criptar el password
         userMg.password = bcryptjs.hashSync( password, salt )

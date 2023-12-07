@@ -8,6 +8,9 @@ const userDelete = async(req,res) => { // eliminar user
         const userId = await User.findById( id ) // Flag
         
         const user = await User.findByIdAndUpdate( id, { state: !userId.state } )
+        const userAuth = req.usuario
+
+        console.log(userAuth);
 
         res.status(200).json({
             user,

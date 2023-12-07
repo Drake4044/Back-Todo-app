@@ -24,4 +24,29 @@ const userPut = async(req,res) => { // editar user
         }
 }
 
-module.exports = userPut
+const userState = async(req,res) => {
+
+        try {
+
+            const { id, state } = req.body
+            
+            const user = await User.findByIdAndUpdate( id, { state: !state })
+
+            res.status(200).json({
+                msg: `Se cambio el estado a ${!state} `
+            })
+
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({
+                msg: "Comuniquese con el Administrador"
+            })
+        }
+
+}
+
+
+module.exports = {
+    userPut,
+    userState
+}

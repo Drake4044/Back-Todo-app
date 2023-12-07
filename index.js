@@ -6,6 +6,7 @@ const port = process.env.POTH || 3001
 
 
 conectarDB = async () => {
+    console.clear()
     await dbConecction()
     server.listen(port, () => {
         console.log(`El servidor esta ${"funcionando".green.bold} en el puerto ${port}`);
